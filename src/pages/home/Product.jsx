@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next";  
 import axios from "axios"
-import { formatMoney } from "../../utils/money.js"
+import { formatMoney } from "../../utils/money"
 
 export function Product({ product, loadCart }) {
    const { t } = useTranslation();

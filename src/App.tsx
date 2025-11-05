@@ -27,8 +27,8 @@ export default function App() {
 
   return (
     <Routes>
-      <Route index element={<HomePage cart= {cart} loadCart={loadCart} />} />
-      <Route path='checkout' element= {<CheckoutPage cart={cart} loadCart={loadCart} />} />
+      <Route index element={<HomePage cart={cart} loadCart={loadCart} />} />
+      <Route path='checkout' element={<CheckoutPage cart={cart} loadCart={loadCart} />} />
       <Route path='orders' element={<Orders cart={cart} />} />
     </Routes>
   )
