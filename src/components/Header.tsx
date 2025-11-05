@@ -1,55 +1,117 @@
-import { Link } from 'react-router'
-import "./header.css"
 import { useState } from 'react';
-import LoginPopup from './LoginPopup';
+import { Link } from 'react-router';
+import "./header.css";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+
 type HeaderProps = {
     cart: {
         productionId: string;
         quantity: number;
         deliveryOptionId: string;
     }[];
-}
+};
+
 export function Header({ cart }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
     }
-    const [showLogin, setShowLogin] = useState(false);
+
+    const [open, setOpen] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
+    const handleLogin = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setUsername("");  
+        setError(""); 
+    };
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!username || !password) {
+            setError("Both fields are required");
+            return;
+        }
+        console.log("Logging in with:", { username, password });
+        handleClose();
+    };
+
     return (
         <>
             <div className="header">
                 <div className="left-section">
                     <Link to="/" className="header-link">
-                        <img className="logo"
-                            src="images/logo-white.png" />
-                        <img className="mobile-logo"
-                            src="images/mobile-logo-white.png" />
+                        <img className="logo" src="images/logo-white.png" alt="Logo" />
+                        <img className="mobile-logo" src="images/mobile-logo-white.png" alt="Mobile Logo" />
                     </Link>
                 </div>
 
                 <div className="middle-section">
                     <input className="search-bar" type="text" placeholder="Search" />
-
                     <button className="search-button">
-                        <img className="search-icon" src="images/icons/search-icon.png" />
+                        <img className="search-icon" src="images/icons/search-icon.png" alt="Search Icon" />
                     </button>
                 </div>
-                <div className="right-section">               
-                    <button className="orders-link header-link" style={{background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer'}} onClick={() => setShowLogin(true)}>
+
+                <div className="right-section">
+                    <button className="login-link header-link" onClick={handleLogin}>
                         <span className="orders-text">Login</span>
                     </button>
+
+                    {/* Login Dialog */}
+                    <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>Login</DialogTitle>
+                        <DialogContent>
+                            <form onSubmit={handleSubmit}>
+                                <TextField
+                                    label="Username"
+                                    variant="outlined"
+                                    fullWidth
+                                    margin="normal"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                                <TextField
+                                    label="Password"
+                                    type="password"
+                                    variant="outlined"
+                                    fullWidth
+                                    margin="normal"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Show error message */}
+                            </form>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={handleSubmit} color="primary">
+                                Login
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
                     <Link className="orders-link header-link" to="/orders">
                         <span className="orders-text">Orders</span>
                     </Link>
 
                     <Link className="cart-link header-link" to="/checkout">
-                        <img className="cart-icon" src="images/icons/cart-icon.png" />
+                        <img className="cart-icon" src="images/icons/cart-icon.png" alt="Cart Icon" />
                         <div className="cart-quantity">{totalQuantity}</div>
                         <div className="cart-text">Cart</div>
                     </Link>
                 </div>
             </div>
-            <LoginPopup isOpen={showLogin} onClose={() => setShowLogin(false)} />
         </>
-    )
+    );
 }
