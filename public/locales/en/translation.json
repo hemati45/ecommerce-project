@@ -1,0 +1,7 @@
+{
+  "welcome": "Welcome to our application",
+  "description": "This is an internationalized React app",
+  "product": "Product",
+  "added": "Added to cart",
+  "add_to_cart": "Add to Cart"
+}
