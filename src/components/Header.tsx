@@ -92,10 +92,10 @@ export function Header({ cart }: HeaderProps) {
                             </form>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} color="primary">
+                            <Button onClick={handleClose} className="orders-text">
                                 Cancel
                             </Button>
-                            <Button onClick={handleSubmit} color="primary">
+                            <Button onClick={handleSubmit} className="orders-text">
                                 Login
                             </Button>
                         </DialogActions>
