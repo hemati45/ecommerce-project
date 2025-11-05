@@ -1,7 +1,13 @@
 import { Link } from 'react-router'
 import "./header.css"
-
-export function Header({ cart }) {
+type HeaderProps= {
+      cart: {
+        productionId: string;
+        quantity: number;
+        deliveryOptionId: string;
+    }[];
+}
+export function Header({ cart }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
