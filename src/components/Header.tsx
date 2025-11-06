@@ -3,15 +3,18 @@ import { Link } from 'react-router';
 import "./header.css";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
 
-type HeaderProps = {
+type HeaderProps = { 
     cart: {
         productionId: string;
         quantity: number;
         deliveryOptionId: string;
     }[];
+    setSearchQuery: (query: string) => void; // Function to update search query
+    searchQuery: string;
+    handleSearch: (query: string) => void;
 };
 
-export function Header({cart }: HeaderProps) {
+export function Header({cart, setSearchQuery, searchQuery, handleSearch }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
@@ -41,7 +44,13 @@ export function Header({cart }: HeaderProps) {
         console.log("Logging in with:", { username, password });
         handleClose();
     };
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(event.target.value);
+    };
 
+     const handleSearchClick = () => {
+        handleSearch(searchQuery);  // Trigger the search in parent component
+    };
     return (
         <>
             <div className="header">
@@ -53,8 +62,8 @@ export function Header({cart }: HeaderProps) {
                 </div>
 
                 <div className="middle-section">
-                    <input className="search-bar" type="text" placeholder="Search" />
-                    <button className="search-button">
+                    <input className="search-bar" type="text" placeholder="Search" value={searchQuery} onChange={handleSearchChange} />
+                    <button className="search-button" onClick={handleSearchClick}>
                         <img className="search-icon" src="images/icons/search-icon.png" alt="Search Icon" />
                     </button>
                 </div>

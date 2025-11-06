@@ -12,15 +12,6 @@ import './i18n'
 export default function App() {
 
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
-  async function loadProducts() {
-    try {
-      const response = await axios.get('/api/products');
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
   async function loadCart() {
     try {
       const response = await axios.get('/api/cart-items?expand=product');
@@ -31,13 +22,12 @@ export default function App() {
   }
 
   useEffect(() => {
-    loadProducts();
     loadCart();
   }, []);
 
   return (
     <Routes>
-      <Route index element={<HomePage products={products} cart={cart} loadCart={loadCart} />} />
+      <Route index element={<HomePage cart={cart} />} />
       <Route path='checkout' element={<CheckoutPage cart={cart} loadCart={loadCart} />} />
       <Route path='orders' element={<Orders cart={cart} />} />
     </Routes>
