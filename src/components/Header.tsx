@@ -11,7 +11,7 @@ type HeaderProps = {
     }[];
 };
 
-export function Header({ cart }: HeaderProps) {
+export function Header({cart }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;

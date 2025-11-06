@@ -1,26 +1,32 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Header } from '../components/Header';
-import{ formatMoney } from '../utils/money';
+
+import { Header } from '../../components/Header';
+import{ formatMoney } from '../../utils/money';
 import './HomePage.css';
+ 
+type HomeProps = {
+    products: {
+      id: string;
+      name: string;
+      keywords: string[];
+      image: string;
+      rating: {
+        stars: number;
+        count: number;
+      };
+      priceCents: number;
+      createdAt: string;
+      updatedAt: string;
+    }[],
+     cart: {
+        productionId: string;
+        quantity: number;
+        deliveryOptionId: string;
+   
+  } [];
+  loadCart: () => Promise<void>; 
+};
 
-
-export function HomePage({ cart }) {
-    const [products, setProducts] = useState([]);    
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.get('/api/products');
-                setProducts(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        fetchData();       
-        // dependency array is empty, so this runs only once when the component mounts
-    }, []);
+export function HomePage({ products, cart}: HomeProps ) {
 
     return (
         <>

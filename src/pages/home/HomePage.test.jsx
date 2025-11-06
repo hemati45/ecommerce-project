@@ -1,5 +1,5 @@
 import { it, expect, describe, vi, beforeEach } from 'vitest';
-import { HomePage } from './HomePage';
+import { HomePage } from './HomePage_';
 import { render, screen, within} from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';

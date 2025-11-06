@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useTranslation } from "react-i18next";  
+import { useTranslation } from "react-i18next";
 import axios from "axios"
 import { formatMoney } from "../../utils/money"
 
 export function Product({ product, loadCart }) {
-   const { t } = useTranslation();
+    const { t } = useTranslation();
     const [quantity, setQuantity] = useState(1);
     const [addedToCart, setAddedToCart] = useState(false);
 
@@ -26,7 +26,7 @@ export function Product({ product, loadCart }) {
 
     return (
         <div className="product-container" data-testid="product-container">
-            
+
             <div className="product-image-container">
                 <img className="product-image" data-testid="product-image" src={product.image} />
             </div>
@@ -73,9 +73,9 @@ export function Product({ product, loadCart }) {
                 {t('added')}
             </div>
 
-            <button data-testid= "add-to-cart-button" className="add-to-cart-button button-primary" onClick={() => addToCart(product)}>
-               
-               {t('add_to_cart')}
+            <button data-testid="add-to-cart-button" className="add-to-cart-button button-primary" onClick={() => addToCart(product)}>
+
+                {t('add_to_cart')}
             </button>
         </div>
     )

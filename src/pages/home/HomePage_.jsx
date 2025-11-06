@@ -5,7 +5,7 @@ import { ProductGrid } from './ProductGrid'
 import './HomePage.css'
 
 
-export function HomePage({ cart, loadCart }) {
+export function HomePage({ products, cart, loadCart }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
