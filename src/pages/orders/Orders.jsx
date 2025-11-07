@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect, Fragment} from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Header } from '../../components/Header';
 import './Orders.css';
 import dayjs from 'dayjs';
@@ -7,12 +7,15 @@ import { formatMoney } from '../../utils/money';
 
 export function Orders({ cart }) {
     const [orders, setOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         async function fetchOrders() {
             try {
                 const response = await axios.get('/api/orders?expand=products');
                 setOrders(response.data);
+                setFilteredOrders(response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -20,16 +23,25 @@ export function Orders({ cart }) {
 
         fetchOrders();
     }, []);
-
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        const filteredOrders = orders.map(order => {
+            const filteredProducts = order.products.filter(p =>
+                p.product.name.toLowerCase().includes(query.toLowerCase())
+            );
+            return filteredProducts.length > 0 ? { ...order, products: filteredProducts } : null;           
+        }).filter(order => order !== null);
+        setFilteredOrders(filteredOrders);
+    };
     return (
         <>
             <title>Orders</title>
-            <Header cart={cart} />
+            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} />
             <div className="orders-page">
                 <div className="page-title">Your Orders</div>
 
                 <div className="orders-grid">
-                    {orders.map((order) => {
+                    {filteredOrders.map((order) => {
                         return (
                             <div key={order.id} className="order-container">
                                 <div className="order-header">

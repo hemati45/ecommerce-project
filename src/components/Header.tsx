@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 import "./header.css";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, Button, TextField } from '@mui/material';
 
-type HeaderProps = { 
+type HeaderProps = {
     cart: {
         productionId: string;
         quantity: number;
@@ -13,8 +14,20 @@ type HeaderProps = {
     searchQuery: string;
     handleSearch: (query: string) => void;
 };
-
-export function Header({cart, setSearchQuery, searchQuery, handleSearch }: HeaderProps) {
+/* const authenticateUserAPI = async (username: string, password: string) => {
+    try {
+        const response = await axios.post('/api/auth/login', { username, password });
+        if (response.status === 200) {
+            // Assume success if the status is 200
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error("Error during authentication:", error);
+        throw error;
+    }
+}; */
+export function Header({ cart, setSearchQuery, searchQuery, handleSearch }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
@@ -23,33 +36,59 @@ export function Header({cart, setSearchQuery, searchQuery, handleSearch }: Heade
     const [open, setOpen] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
+    const authenticateUser = async (username: string, password: string) => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        return username === "user" && password === "pass"
+    };
     const handleLogin = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setUsername("");  
-        setError(""); 
+        setUsername("");
+        setError("");
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!username || !password) {
             setError("Both fields are required");
             return;
         }
-        console.log("Logging in with:", { username, password });
-        handleClose();
+
+
+        // Mock API request for authentication
+        try {
+            const isAuthenticated = await authenticateUser(username, password);
+
+            if (isAuthenticated) {
+                console.log("User authenticated successfully.");
+                handleClose();
+            } else {
+                setError("Invalid username or password");
+            }
+        } catch (error) {
+            setError("An error occurred during authentication");
+            console.error("Authentication error:", error);
+        }
+
+
     };
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
 
-     const handleSearchClick = () => {
-        handleSearch(searchQuery);  // Trigger the search in parent component
+    const handleSearchClick = () => {
+        handleSearch(searchQuery);
+    };
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSearchClick();
+        }
     };
     return (
         <>
@@ -62,7 +101,7 @@ export function Header({cart, setSearchQuery, searchQuery, handleSearch }: Heade
                 </div>
 
                 <div className="middle-section">
-                    <input className="search-bar" type="text" placeholder="Search" value={searchQuery} onChange={handleSearchChange} />
+                    <input className="search-bar" type="text" placeholder="Search" value={searchQuery} onChange={handleSearchChange} onKeyDown={handleKeyDown} />
                     <button className="search-button" onClick={handleSearchClick}>
                         <img className="search-icon" src="images/icons/search-icon.png" alt="Search Icon" />
                     </button>
@@ -73,9 +112,9 @@ export function Header({cart, setSearchQuery, searchQuery, handleSearch }: Heade
                         <span className="orders-text">Login</span>
                     </button>
 
-                    {/* Login Dialog */}
+                    {/* Login Dialog Inline */}
                     <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>Login</DialogTitle>
+                        {/* <DialogTitle>Login</DialogTitle> */}
                         <DialogContent>
                             <form onSubmit={handleSubmit}>
                                 <TextField
@@ -101,10 +140,10 @@ export function Header({cart, setSearchQuery, searchQuery, handleSearch }: Heade
                             </form>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} className="orders-text">
+                            <Button onClick={handleClose} style={{ color: 'white' }}>
                                 Cancel
                             </Button>
-                            <Button onClick={handleSubmit} className="orders-text">
+                            <Button onClick={handleSubmit} style={{ color: 'white' }}>
                                 Login
                             </Button>
                         </DialogActions>
