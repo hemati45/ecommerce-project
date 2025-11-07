@@ -1,15 +1,18 @@
 
 import React, { useState } from "react"
 import { Dialog, DialogActions, DialogContent, Button, TextField } from '@mui/material';
+import type { UserState } from '../types/types';
 import "./Login.css"
 
-export function Login() {
+type LoginProps = {
+ userState : UserState
+};
+export function Login({userState} : LoginProps) {
+
     const [open, setOpen] = useState(false);
-    const [username, setUsername] = useState("afshin");
     const [password, setPassword] = useState("pass");
     const [error, setError] = useState<string | null>(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userImage, setUserImage] = useState<string>('');
+    
 
     const authenticateUser = (username: string, password: string) => {
         return username === "afshin" && password === "pass"
@@ -20,20 +23,20 @@ export function Login() {
 
     const handleClose = () => {
         setOpen(false);
-        setUsername("");
+        userState.setUsername("");
         setError("");
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!username || !password) {
+        if (!userState.username || !password) {
             setError("Both fields are required");
             return;
         }
         try {
-            if (authenticateUser(username, password)) {
-                setIsLoggedIn(true);
-                setUserImage('../../public/images/user.png');
+            if (authenticateUser(userState.username, password)) {
+                userState.setIsLoggedIn(true);
+                userState.setUserImage('../../public/images/user.png');
                 setError(null);
                 console.log("User authenticated successfully.");
                 handleClose();
@@ -50,7 +53,7 @@ export function Login() {
 
     return (
         <div className="login">
-            {!isLoggedIn ? (
+            {!userState.isLoggedIn ? (
                 <div >
                     <button className="login-link" onClick={handleLogin}>
                         <span className="login-text">Login</span>
@@ -64,8 +67,8 @@ export function Login() {
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={userState.username}
+                                    onChange={(e) => userState.setUsername(e.target.value)}
                                     required
                                 />
                                 <TextField
@@ -93,7 +96,7 @@ export function Login() {
                 </div>
             ) : (
                 <div>
-                    <img className="profile-image" src={userImage} alt={username} />
+                    <img className="profile-image" src={userState.userImage} alt={userState.username} />
                 </div>
             )}
         </div>

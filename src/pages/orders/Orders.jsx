@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
 import { Header } from '../../components/Header';
+import { formatMoney } from '../../utils/money';
 import './Orders.css';
 import dayjs from 'dayjs';
-import { formatMoney } from '../../utils/money';
 
-export function Orders({ cart }) {
+export function Orders({ cart, userState}) {
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +36,7 @@ export function Orders({ cart }) {
     return (
         <>
             <title>Orders</title>
-            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} />
+            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} userState={userState}/>
             <div className="orders-page">
                 <div className="page-title">Your Orders</div>
 

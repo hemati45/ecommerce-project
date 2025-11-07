@@ -12,6 +12,19 @@ import './i18n'
 export default function App() {
 
   const [cart, setCart] = useState([]);
+
+  const [username, setUsername] = useState("afshin");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userImage, setUserImage] = useState<string>('');
+  const userState = {
+    username,
+    setUsername,
+    isLoggedIn,
+    setIsLoggedIn,
+    userImage,
+    setUserImage,
+  };
+
   async function loadCart() {
     try {
       const response = await axios.get('/api/cart-items?expand=product');
@@ -27,9 +40,9 @@ export default function App() {
 
   return (
     <Routes>
-      <Route index element={<HomePage cart={cart} loadCart={loadCart}/>} />
+      <Route index element={<HomePage cart={cart} loadCart={loadCart} userState={userState} />} />
       <Route path='checkout' element={<CheckoutPage cart={cart} loadCart={loadCart} />} />
-      <Route path='orders' element={<Orders cart={cart} />} />
+      <Route path='orders' element={<Orders cart={cart} userState={userState} />} />
     </Routes>
   )
 }

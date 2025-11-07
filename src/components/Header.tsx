@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
+import { Login } from '../init/Login';
+import type { UserState } from '../types/types';
 import "./Header.css";
-import { Login } from '../init/login';
 
 
 type HeaderProps = {
@@ -12,21 +13,10 @@ type HeaderProps = {
     setSearchQuery: (query: string) => void; 
     searchQuery: string;
     handleSearch: (query: string) => void;
+    userState: UserState;
 };
-/* const authenticateUserAPI = async (username: string, password: string) => {
-    try {
-        const response = await axios.post('/api/auth/login', { username, password });
-        if (response.status === 200) {
-            // Assume success if the status is 200
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.error("Error during authentication:", error);
-        throw error;
-    }
-}; */
-export function Header({ cart, setSearchQuery, searchQuery, handleSearch }: HeaderProps) {
+
+export function Header({ cart, setSearchQuery, searchQuery, handleSearch, userState }: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
@@ -70,7 +60,7 @@ export function Header({ cart, setSearchQuery, searchQuery, handleSearch }: Head
                         <div className="cart-quantity">{totalQuantity}</div>
                         {/* <div className="cart-text">Cart</div>  */}
                     </Link>                  
-                    <Login ></Login>            
+                    <Login userState={userState}></Login>            
                 </div>   
             </div>
         </>

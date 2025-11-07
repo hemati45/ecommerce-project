@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
-import './HomePage.css'
 import { ProductGrid } from './ProductGrid';
+import type { UserState, Product } from '../../types/types';
+import './HomePage.css'
+
 
 type HomePageProps = {
     cart: {
@@ -13,21 +15,10 @@ type HomePageProps = {
 
     }[];
     loadCart: () => Promise<void>; 
+    userState: UserState;
 };
-type Product = {
-    id: string;
-    name: string;
-    keywords: string[];
-    image: string;
-    rating: {
-        stars: number;
-        count: number;
-    };
-    priceCents: number;
-    createdAt: string;
-    updatedAt: string;
-};
-export function HomePage({ cart , loadCart}: HomePageProps) {
+
+export function HomePage({ cart , loadCart, userState}: HomePageProps) {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -55,7 +46,7 @@ export function HomePage({ cart , loadCart}: HomePageProps) {
     return (
         <>
             <title>ecommerce-project</title>
-            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} />
+            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} userState={userState} />
             <div className="home-page">
                 <ProductGrid products={filteredProducts} loadCart={loadCart} />
             </div>
