@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import "./header.css";
+import "./Header.css";
 import { Login } from '../init/login';
 
 
@@ -68,7 +68,7 @@ export function Header({ cart, setSearchQuery, searchQuery, handleSearch }: Head
                     <Link className="cart-link header-link" to="/checkout">
                         <img className="cart-icon" src="images/icons/cart-icon.png" alt="Cart Icon" />
                         <div className="cart-quantity">{totalQuantity}</div>
-                        <div className="cart-text">Cart</div> 
+                        {/* <div className="cart-text">Cart</div>  */}
                     </Link>                  
                     <Login ></Login>            
                 </div>   

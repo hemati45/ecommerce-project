@@ -1,24 +1,31 @@
-
 .login .login-text {
-  display: block;
-  font-size: 15px;
-  font-weight: 700;
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+}
+.login .login-link:hover {
+  transform: scale(1.10);
 }
 .login .login-link {
+  text-decoration: none;
+  display: inline-block;
   color: white;
-  display: flex;
-  align-items: center;
-  padding-left: 13px;
-  padding-right: 13px;
-  margin-top: 5px;
-  border: none;
+  font-size: 1rem;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  background-color: rgb(8, 79, 45);
+  transition: 
+      background-color 0.3s ease,
+        transform 0.2s ease;
+}
+.login .profile-image {
+    width: 40px;
+    height: 40px;
+    margin-top: 3px;
+    border-radius: 50%;
 }
 
-.login .profile-image {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%; 
-}
-.MuiButton-root.login-bttn  {
-  color: white ;
+.MuiButton-root.login-bttn {
+    color: white;
 }
