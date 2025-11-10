@@ -58,7 +58,6 @@ export function Header({ cart, setSearchQuery, searchQuery, handleSearch, userSt
                     <Link className="cart-link header-link" to="/checkout">
                         <img className="cart-icon" src="images/icons/cart-icon.png" alt="Cart Icon" />
                         <div className="cart-quantity">{totalQuantity}</div>
-                        {/* <div className="cart-text">Cart</div>  */}
                     </Link>                  
                     <Login userState={userState}></Login>            
                 </div>   

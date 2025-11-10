@@ -2,18 +2,16 @@
 import React, { useState } from "react"
 import { Dialog, DialogActions, DialogContent, Button, TextField } from '@mui/material';
 import type { UserState } from '../types/types';
+import { ProfileMenu } from "./ProfileMenu";
 import "./Login.css"
 
 type LoginProps = {
- userState : UserState
+    userState: UserState
 };
-export function Login({userState} : LoginProps) {
-
+export function Login({ userState }: LoginProps) {
     const [open, setOpen] = useState(false);
     const [password, setPassword] = useState("pass");
     const [error, setError] = useState<string | null>(null);
-    
-
     const authenticateUser = (username: string, password: string) => {
         return username === "afshin" && password === "pass"
     };
@@ -23,7 +21,6 @@ export function Login({userState} : LoginProps) {
 
     const handleClose = () => {
         setOpen(false);
-        userState.setUsername("");
         setError("");
     };
 
@@ -38,7 +35,6 @@ export function Login({userState} : LoginProps) {
                 userState.setIsLoggedIn(true);
                 userState.setUserImage('../../public/images/user.png');
                 setError(null);
-                console.log("User authenticated successfully.");
                 handleClose();
             } else {
                 setError("Invalid username or password");
@@ -47,7 +43,6 @@ export function Login({userState} : LoginProps) {
             setError("An error occurred during authentication");
             console.error("Authentication error:", error);
         }
-
 
     };
 
@@ -70,6 +65,11 @@ export function Login({userState} : LoginProps) {
                                     value={userState.username}
                                     onChange={(e) => userState.setUsername(e.target.value)}
                                     required
+                                        sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            height: '2.5em', // Adjust the input field height
+                                        }
+                                    }}
                                 />
                                 <TextField
                                     label="Password"
@@ -80,6 +80,11 @@ export function Login({userState} : LoginProps) {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            height: '2.5em', 
+                                        }
+                                    }}
                                 />
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                             </form>
@@ -95,9 +100,7 @@ export function Login({userState} : LoginProps) {
                     </Dialog>
                 </div>
             ) : (
-                <div>
-                    <img className="profile-image" src={userState.userImage} alt={userState.username} />
-                </div>
+                <ProfileMenu userState={userState} ></ProfileMenu>
             )}
         </div>
     )
