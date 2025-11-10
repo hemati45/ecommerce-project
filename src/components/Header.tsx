@@ -1,32 +1,30 @@
 import { Link } from 'react-router';
 import { Login } from '../init/Login';
-import type { UserState } from '../types/types';
+import type { UserState, Cart } from '../types/types';
 import "./Header.css";
 
 
 type HeaderProps = {
-    cart: {
-        productionId: string;
-        quantity: number;
-        deliveryOptionId: string;
-    }[];
+    cart: Cart;
+    searchState:{
     setSearchQuery: (query: string) => void; 
     searchQuery: string;
     handleSearch: (query: string) => void;
+    };
     userState: UserState;
 };
 
-export function Header({ cart, setSearchQuery, searchQuery, handleSearch, userState }: HeaderProps) {
+export function Header({ cart, searchState, userState}: HeaderProps) {
     let totalQuantity = 0;
     for (const item of cart) {
         totalQuantity += item.quantity;
     }
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
+        searchState.setSearchQuery(event.target.value);
     };
 
     const handleSearchClick = () => {
-        handleSearch(searchQuery);
+         searchState.handleSearch( searchState.searchQuery);
     };
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -45,7 +43,7 @@ export function Header({ cart, setSearchQuery, searchQuery, handleSearch, userSt
                 </div>
 
                 <div className="middle-section">
-                    <input className="search-bar" type="text" placeholder="Search" value={searchQuery} onChange={handleSearchChange} onKeyDown={handleKeyDown} />
+                    <input className="search-bar" type="text" placeholder="Search" value={ searchState.searchQuery} onChange={handleSearchChange} onKeyDown={handleKeyDown} />
                     <button className="search-button" onClick={handleSearchClick}>
                         <img className="search-icon" src="images/icons/search-icon.png" alt="Search Icon" />
                     </button>

@@ -43,10 +43,15 @@ export function HomePage({ cart , loadCart, userState}: HomePageProps) {
         );
         setFilteredProducts(filtered);  // Update filtered products based on the query
     };
+    const searchState= {
+        searchQuery,
+        setSearchQuery,
+        handleSearch
+    }
     return (
         <>
             <title>ecommerce-project</title>
-            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} userState={userState} />
+            <Header cart={cart} searchState={searchState} userState={userState} />
             <div className="home-page">
                 <ProductGrid products={filteredProducts} loadCart={loadCart} />
             </div>

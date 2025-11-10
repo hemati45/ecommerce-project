@@ -33,10 +33,15 @@ export function Orders({ cart, userState}) {
         }).filter(order => order !== null);
         setFilteredOrders(filteredOrders);
     };
+    const searchState= {
+        searchQuery,
+        setSearchQuery,
+        handleSearch
+    }
     return (
         <>
             <title>Orders</title>
-            <Header cart={cart} setSearchQuery={setSearchQuery} searchQuery={searchQuery} handleSearch={handleSearch} userState={userState}/>
+            <Header cart={cart} searchState={searchState} userState={userState}/>
             <div className="orders-page">
                 <div className="page-title">Your Orders</div>
 
