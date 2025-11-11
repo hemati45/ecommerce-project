@@ -33,7 +33,7 @@ export function Login({ userState }: LoginProps) {
         try {
             if (authenticateUser(userState.username, password)) {
                 userState.setIsLoggedIn(true);
-                userState.setUserImage('../../public/images/user.png');
+                userState.setUserImage('../../images/user.png');
                 setError(null);
                 handleClose();
             } else {
